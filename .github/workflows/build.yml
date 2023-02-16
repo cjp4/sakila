@@ -38,7 +38,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cjp4_sakila
       - name: Unit Test
-        run: mvn Test
+        run: mvn test
 
   PROD:
     name: Production (Build and analyze)
