@@ -13,7 +13,6 @@ public class ActorRepositoryImpl implements ActorRepository{
 
 	@Override
 	public List<Actor> listActorByFilmTop10() {
-		// TODO Auto-generated method stub
 		
 		List<Actor> result = new ArrayList<>();
 		
