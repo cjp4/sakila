@@ -43,7 +43,7 @@ jobs:
   PROD:
     name: Build and analyze
     runs-on: ubuntu-latest
-    if: ${{ secrets.ENV }} == 'PROD'
+    if: github.event.pull_request.base.ref == 'master'
     environment: PROD
     steps:
       - uses: actions/checkout@v2
