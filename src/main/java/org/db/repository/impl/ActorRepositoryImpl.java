@@ -3,7 +3,7 @@ package org.db.repository.impl;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.db.model.actor;
+import org.db.model.Actor;
 import org.db.repository.ActorRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,30 +12,30 @@ import org.springframework.stereotype.Repository;
 public class ActorRepositoryImpl implements ActorRepository{
 
 	@Override
-	public List<actor> listActorByFilmTop10() {
+	public List<Actor> listActorByFilmTop10() {
 		// TODO Auto-generated method stub
 		
-		List<actor> result = new ArrayList<>();
+		List<Actor> result = new ArrayList<>();
 		
-		actor obj = new actor();
+		Actor obj = new Actor();
 		obj.setActorId(Long.valueOf("12"));
 		obj.setFirstName("carlos");
 		obj.setLastName("Jorge");
 		result.add(obj);
 		
-		obj = new actor();
+		obj = new Actor();
 		obj.setActorId(Long.valueOf("13"));
 		obj.setFirstName("pedro");
 		obj.setLastName("almued");
 		result.add(obj);
 		
-		obj = new actor();
+		obj = new Actor();
 		obj.setActorId(Long.valueOf("14"));
 		obj.setFirstName("fernando");
 		obj.setLastName("perez");
 		result.add(obj);
 		
-		obj = new actor();
+		obj = new Actor();
 		obj.setActorId(Long.valueOf("15"));
 		obj.setFirstName("frank");
 		obj.setLastName("Bledas");

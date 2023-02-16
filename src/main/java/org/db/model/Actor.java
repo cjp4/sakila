@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class film {
+public class Actor {
 
-    Long filmId; 
-    String title;
-    String description;
-	
+    Long actorId; 
+    String firstName;
+    String lastName;
 }

@@ -2,13 +2,13 @@ package org.db.service;
 
 import java.util.List;
 
-import org.db.model.actor;
-import org.db.model.film;
+import org.db.model.Actor;
+import org.db.model.Film;
 
 public interface SakilaService {
 
-	List<film> listFilmByCategory();
+	List<Film> listFilmByCategory();
 	
-	List<actor> listActorByFilmTop10();
+	List<Actor> listActorByFilmTop10();
 	
 }

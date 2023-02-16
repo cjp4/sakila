@@ -2,10 +2,10 @@ package org.db.repository;
 
 import java.util.List;
 
-import org.db.model.film;
+import org.db.model.Film;
 
 public interface FilmRepository {
 
 	
-	List<film> listFilmByCategory();
+	List<Film> listFilmByCategory();
 }

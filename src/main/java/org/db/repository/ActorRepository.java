@@ -2,9 +2,9 @@ package org.db.repository;
 
 import java.util.List;
 
-import org.db.model.actor;
+import org.db.model.Actor;
 
 public interface ActorRepository {
 
-	 List<actor> listActorByFilmTop10();
+	 List<Actor> listActorByFilmTop10();
 }
