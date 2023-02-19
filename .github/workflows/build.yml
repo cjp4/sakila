@@ -45,7 +45,7 @@ jobs:
   CD:
     runs-on: ubuntu-latest  
     name: Production (Build and analyze)
-    if: "${{github.base_ref}}" == "master"
+    if: github.event.pull_request.base.ref == 'master'
     environment: PROD
     steps:
       - uses: actions/checkout@v2
