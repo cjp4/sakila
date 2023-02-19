@@ -6,24 +6,8 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-
-env:
-  ENVIRONMENT: 'DEV'
   
 jobs:
-
-  INIT:
-    runs-on: ubuntu-latest  
-    steps:
-      - name: Set env to staging
-        if: endsWith(github.ref, '/develop')
-        run: |
-          echo "::set-env name=ENVIRONMENT::DEV"
-      - name: Set env to production
-        if: endsWith(github.ref, '/master')
-        run: |
-          echo "::set-env name=ENVIRONMENT::PROD"
-    
 
   CI:
     runs-on: ubuntu-latest  
@@ -61,7 +45,7 @@ jobs:
   CD:
     runs-on: ubuntu-latest  
     name: Production (Build and analyze)
-    if: ${{ENVIRONMENT}} == 'PROD'
+    if: "${{github.base_ref}}" == "master"
     environment: PROD
     steps:
       - uses: actions/checkout@v2
