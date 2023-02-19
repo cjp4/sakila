@@ -7,8 +7,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-runs-on: ubuntu-latest    
+  
 jobs:
+  runs-on: ubuntu-latest  
+  
   INIT:
     steps:
       - name: Set env to staging
