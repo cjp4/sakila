@@ -7,11 +7,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+env:
+  ENVIRONMENT: 'DEV'
   
 jobs:
-  runs-on: ubuntu-latest  
-  
+
   INIT:
+    runs-on: ubuntu-latest  
     steps:
       - name: Set env to staging
         if: endsWith(github.ref, '/develop')
@@ -24,6 +26,7 @@ jobs:
     
 
   CI:
+    runs-on: ubuntu-latest  
     name: Build and analyze
     steps:
       - uses: actions/checkout@v2
@@ -56,6 +59,7 @@ jobs:
         run: mvn clean install 
 
   CD:
+    runs-on: ubuntu-latest  
     name: Production (Build and analyze)
     if: ${{ENVIRONMENT}} == 'PROD'
     environment: PROD
