@@ -6,6 +6,8 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
+
+runs-on: ubuntu-latest    
 jobs:
   INIT:
     steps:
@@ -21,7 +23,6 @@ jobs:
 
   CI:
     name: Build and analyze
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -54,7 +55,6 @@ jobs:
 
   CD:
     name: Production (Build and analyze)
-    runs-on: ubuntu-latest
     if: ${{ENVIRONMENT}} == 'PROD'
     environment: PROD
     steps:
