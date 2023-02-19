@@ -12,6 +12,7 @@ jobs:
   CI:
     runs-on: ubuntu-latest  
     name: Build and analyze
+    environment: DEV
     steps:
       - uses: actions/checkout@v2
         with:
