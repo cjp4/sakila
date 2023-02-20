@@ -1,7 +1,7 @@
-FROM docker.io/library/openjdk:17-slim-buster AS base
+FROM docker.io/library/openjdk:11-slim-buster AS base
 WORKDIR /app
 
-FROM docker.io/library/maven:3.8.4-openjdk-17 AS build
+FROM docker.io/library/maven:3.8.4-openjdk-11 AS build
 WORKDIR /build
 
 COPY pom.xml ./
