@@ -73,13 +73,24 @@ jobs:
         login-server: ${{ secrets.ACR_LOGIN_SERVER }}
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
-
-    - name: Build and push Docker image
-      uses: azure/docker@v1
+    
+    - name: Azure Container Registry Build
+      uses: Azure/acr-build@v1
       with:
-        image: ${{ env.ACR_NAME }}/java-app:${{ env.IMAGE_TAG }}
-        dockerfile: Dockerfile
-        context: .
+        service_principal: ${{ secrets.ACR_USERNAME }}
+        service_principal_password: ${{ secrets.ACR_PASSWORD }}
+        tenant: Oltuirsa
+        registry: crsakila
+        repository: ${{ env.ACR_NAME }}/java-app
+        git_access_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ env.IMAGE_TAG }}
+        
+   # - name: Build and push Docker image
+   #   uses: azure/docker@v1
+   #   with:
+   #     image: ${{ env.ACR_NAME }}/java-app:${{ env.IMAGE_TAG }}
+   #     dockerfile: Dockerfile
+   #     context: .
         
     - name: Set image tag based on date and time
       run: echo "::set-env name=IMAGE_TAG::$(date +%Y%m%d%H%M%S)"
