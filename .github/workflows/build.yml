@@ -72,6 +72,7 @@ jobs:
   CD:
     runs-on: ubuntu-latest
     name: CD
+    needs: [CI]
     steps:
       - name: Setup Azure Container registry
         uses: azure/docker-login@v1
