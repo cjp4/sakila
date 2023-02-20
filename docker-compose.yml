@@ -4,6 +4,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: crsakila.azurecr.io/api-sakila:1.0.0
+    image: crsakila.azurecr.io/api-sakila
     ports:
       - "8080:8080"
