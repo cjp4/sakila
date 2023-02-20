@@ -15,4 +15,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /build/target/*.jar ./app.jar
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"] 
