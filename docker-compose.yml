@@ -7,7 +7,7 @@ services:
     image: "${REGISTRY_LOGIN_SERVER}/api-sakila:${TAG}"
     container_name: ctSakila
     ports:
-      - "8081:8080" 
+      - "8081:80" 
       - "3443:443"
     networks:
       - lasalle  
