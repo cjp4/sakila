@@ -1,9 +1,16 @@
-version: '3'
+version: '3.6'
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: crsakila.azurecr.io/api-sakila:latest
+    image: "${REGISTRY_LOGIN_SERVER}/api-sakila:${TAG}"
+    container_name: ctSakila
     ports:
-      - "8080:8080"
+      - "3080:80" 
+      - "3443:443"
+    networks:
+      - lasalle  
+networks:
+    lasalle:
+        driver: bridge  
