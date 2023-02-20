@@ -8,11 +8,12 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  AZURE_WEBAPP_NAME: app-sakila
+  AZURE_WEBAPP_NAME: appSakila
   AZURE_RESOURCE_GROUP: rsg-sakila
   ACR_NAME: crsakila.azurecr.io
   IMAGE_TAG: ${{ github.run_id }}    
-  
+  IMAGE_NAME: api-sakila
+
 jobs:
 
   CI:
@@ -68,8 +69,25 @@ jobs:
           export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
           docker compose push    
 
-  #CD:
-  #  runs-on: ubuntu-latest
+  CD:
+    runs-on: ubuntu-latest
+ 
+      - name: Setup Azure Container registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }} 
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: '${{secrets.ACR_LOGIN_SERVER}}/${{ env.IMAGE_NAME }}:${{ github.run_id }}'    
+
+
+
  # 
  ##   name: CD
  #   #if: github.event.pull_request.base.ref == 'master'
