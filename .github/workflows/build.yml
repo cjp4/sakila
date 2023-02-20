@@ -71,7 +71,7 @@ jobs:
       with:
         service_principal: ${{ secrets.ACR_USERNAME }}
         service_principal_password: ${{ secrets.ACR_PASSWORD }}
-        tenant: Oltuirsa
+        tenant: fd064dbe-1600-4b1b-aa50-e7cccfcee918
         registry: crsakila
         repository: ${{ env.ACR_NAME }}/java-app
         git_access_token: ${{ secrets.GITHUB_TOKEN }}
