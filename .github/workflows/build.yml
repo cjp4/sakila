@@ -76,6 +76,8 @@ jobs:
         repository: ${{ env.ACR_NAME }}/java-app
         git_access_token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ env.IMAGE_TAG }}
+        context: .
+        dockerfile: ./Dockerfile
         
     - name: Set image tag based on date and time
       run: echo "::set-env name=IMAGE_TAG::$(date +%Y%m%d%H%M%S)"
@@ -86,4 +88,4 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         resource-group: ${{ env.AZURE_RESOURCE_GROUP }}
         images: ${{ env.ACR_NAME }}/java-app:${{ env.IMAGE_TAG }}
-        
+
