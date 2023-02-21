@@ -58,21 +58,13 @@ jobs:
           export TAG=${{ github.run_id }}
           export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
           docker compose build  
-      - name: Setup Acceptance tests
-        run: |
-          export TAG=${{ github.run_id }}
-          export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
-          docker compose up -d --no-build    
-          sleep 30  
-      - name: Run Acceptance tests
-        run: curl http://localhost:8081/api-sakila/v1/sakila/listActorByFilmTop10  
+
       - name: Publish Artifactory
         run: |
           export TAG=${{ github.run_id }}
           export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
           docker compose push    
-      - name: Post Setup Acceptance tests
-        run: docker compose down      
+
 
   CD:
     runs-on: ubuntu-latest
@@ -85,6 +77,14 @@ jobs:
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }} 
+      - name: Setup Acceptance tests
+        run: |
+          export TAG=${{ github.run_id }}
+          export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
+          docker compose up -d --no-build    
+          sleep 30  
+      - name: Run Acceptance tests
+        run: curl http://localhost:8081/api-sakila/v1/sakila/listActorByFilmTop10            
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: Azure/webapps-deploy@v2
@@ -92,4 +92,6 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: '${{secrets.ACR_LOGIN_SERVER}}/${{ env.IMAGE_NAME }}:${{ github.run_id }}'
+      - name: Post Setup Acceptance tests
+        run: docker compose down                
   
