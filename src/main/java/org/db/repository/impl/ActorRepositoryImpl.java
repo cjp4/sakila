@@ -18,8 +18,8 @@ public class ActorRepositoryImpl implements ActorRepository{
 		
 		Actor obj = new Actor();
 		obj.setActorId(Long.valueOf("12"));
-		obj.setFirstName("carlos");
-		obj.setLastName("Jorge");
+		obj.setFirstName("pepe");
+		obj.setLastName("pino");
 		result.add(obj);
 		
 		obj = new Actor();
@@ -38,6 +38,12 @@ public class ActorRepositoryImpl implements ActorRepository{
 		obj.setActorId(Long.valueOf("15"));
 		obj.setFirstName("frank");
 		obj.setLastName("Bledas");
+		result.add(obj);
+		
+		obj = new Actor();
+		obj.setActorId(Long.valueOf("16"));
+		obj.setFirstName("carlos");
+		obj.setLastName("jorge");
 		result.add(obj);
 
 	    return result;
