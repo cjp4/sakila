@@ -76,6 +76,11 @@ jobs:
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }} 
+      - name: Build Artifactory
+        run: |
+          export TAG=${{ env.IMAGE_TAG }}
+          export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
+          docker compose build      
       - name: Setup Acceptance tests
         run: |
           export TAG=${{ env.IMAGE_TAG }}
