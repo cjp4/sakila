@@ -1,5 +1,9 @@
 name: CI/CD
 on:
+  push:
+    branches: 
+       - master
+       - develop
   pull_request:
     branches:
       - master
@@ -55,11 +59,13 @@ jobs:
       - name: Build Jar
         run: mvn clean install 
       - name: Build Artifactory
+        if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'master' }}
         run: |
           export TAG=${{ env.IMAGE_TAG }}
           export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
           docker compose build  
       - name: Publish Artifactory
+        if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'master' }}
         run: |
           export TAG=${{ env.IMAGE_TAG }}
           export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
@@ -67,6 +73,7 @@ jobs:
 
 
   CD:
+    if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'master' }}
     runs-on: ubuntu-latest
     name: CD
     needs: [CI]
