@@ -1,4 +1,4 @@
-name: SAKILA PIPELINE
+name: CI/CD
 on:
   push:
     branches:
@@ -6,7 +6,6 @@ on:
   pull_request:
     branches:
       - master
-    types: [opened, synchronize, reopened]
 
 env:
   AZURE_WEBAPP_NAME: appSakila
@@ -18,7 +17,6 @@ env:
 jobs:
 
   CI:
-    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'master'}}
     runs-on: ubuntu-latest  
     name: CI
     environment: DEV
@@ -72,7 +70,7 @@ jobs:
           docker compose push    
 
   CD:
-    if: ${{ github.event_name == 'push' && github.base_ref == 'master'}}
+    if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'master'}}
     runs-on: ubuntu-latest
     name: CD
     needs: [CI]
