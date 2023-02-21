@@ -13,7 +13,6 @@ public class ActorRepositoryImpl implements ActorRepository{
 
 	@Override
 	public List<Actor> listActorByFilmTop10() {
-		// TODO Auto-generated method stub
 		
 		List<Actor> result = new ArrayList<>();
 		
@@ -40,6 +39,12 @@ public class ActorRepositoryImpl implements ActorRepository{
 		obj.setFirstName("frank");
 		obj.setLastName("Bledas");
 		result.add(obj);
+		
+		/*obj = new Actor();
+		obj.setActorId(Long.valueOf("15"));
+		obj.setFirstName("jp");
+		obj.setLastName("jorge");
+		result.add(obj);*/
 
 	    return result;
 	}

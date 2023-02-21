@@ -1,37 +1,92 @@
-name: SonarCloud
+name: SAKILA PIPELINE
 on:
   push:
     branches:
       - master
   pull_request:
+    branches:
+      - master
     types: [opened, synchronize, reopened]
+
+env:
+  AZURE_WEBAPP_NAME: appSakila
+  AZURE_RESOURCE_GROUP: rsg-sakila
+  ACR_NAME: crsakila.azurecr.io
+  IMAGE_TAG: ${{ github.run_id }}    
+  IMAGE_NAME: api-sakila
+
 jobs:
-  build:
-    name: Build and analyze
-    runs-on: ubuntu-latest
-    environment: PROD
+
+  CI:
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'master'}}
+    runs-on: ubuntu-latest  
+    name: CI
+    environment: DEV
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Cache SonarCloud packages
+
+      - name: Setup Azure Container registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }} 
+      - name: SonarCloud packages
         uses: actions/cache@v1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
+      - name: Maven packages
         uses: actions/cache@v1
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+      - name: SonarCloud (Build and analyze)
         env:
-          GITHUB_TOKEN: ${{ secrets.GT_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GT_TOKEN }}  
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cjp4_sakila
+      - name: Unit Test
+        run: mvn test
+      - name: Build Jar
+        run: mvn clean install 
+      - name: Build Artifactory
+      #  if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'master' }}
+        run: |
+          export TAG=${{ github.run_id }}
+          export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
+          docker compose build  
+      - name: Publish Artifactory
+      #  if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'main' }}
+        run: |
+          export TAG=${{ github.run_id }}
+          export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
+          docker compose push    
+
+  CD:
+    if: ${{ github.event_name == 'push' && github.base_ref == 'master'}}
+    runs-on: ubuntu-latest
+    name: CD
+    needs: [CI]
+    steps:
+      - name: Setup Azure Container registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }} 
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: '${{secrets.ACR_LOGIN_SERVER}}/${{ env.IMAGE_NAME }}:${{ github.run_id }}'    

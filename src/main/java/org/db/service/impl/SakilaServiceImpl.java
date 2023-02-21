@@ -20,13 +20,11 @@ public class SakilaServiceImpl implements SakilaService{
 	
 	@Override
 	public List<Film> listFilmByCategory() {
-		// TODO Auto-generated method stub
 		return filmRepo.listFilmByCategory();
 	}
 
 	@Override
 	public List<Actor> listActorByFilmTop10() {
-		// TODO Auto-generated method stub
 		return actorRepo.listActorByFilmTop10();
 	}
 

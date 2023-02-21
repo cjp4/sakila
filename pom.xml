@@ -11,11 +11,11 @@
 	<groupId>org.db</groupId>
 	<artifactId>sakila</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>sakila</name>
 	<description>Demo project for la salle</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	    <sonar.organization>cjp4</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>

@@ -14,7 +14,6 @@ public class FilmRepositoryImpl implements FilmRepository{
 
 	@Override
 	public List<Film> listFilmByCategory() {
-		// TODO Auto-generated method stub
   
 		List<Film> result = new ArrayList<>();
 		
