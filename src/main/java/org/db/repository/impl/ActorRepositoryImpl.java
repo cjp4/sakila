@@ -40,11 +40,11 @@ public class ActorRepositoryImpl implements ActorRepository{
 		obj.setLastName("Bledas");
 		result.add(obj);
 		
-		obj = new Actor();
+		/*obj = new Actor();
 		obj.setActorId(Long.valueOf("15"));
 		obj.setFirstName("jp");
 		obj.setLastName("jorge");
-		result.add(obj);
+		result.add(obj);*/
 
 	    return result;
 	}
