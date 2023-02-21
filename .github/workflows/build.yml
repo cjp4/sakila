@@ -67,7 +67,6 @@ jobs:
           docker compose push    
 
   CD:
-    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     name: CD
     needs: [CI]
