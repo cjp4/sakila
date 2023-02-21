@@ -1,8 +1,5 @@
 name: CI/CD
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -70,7 +67,7 @@ jobs:
           docker compose push    
 
   CD:
-    if: ${{ (github.event_name == 'pull_request' || github.event_name == 'push') && github.base_ref == 'master'}}
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     name: CD
     needs: [CI]
