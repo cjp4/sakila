@@ -18,7 +18,8 @@ jobs:
     name: CI
     environment: DEV
     steps:
-      - uses: actions/checkout@v2
+      - name: Get sources 
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0  
       - name: Set up JDK 11
@@ -70,17 +71,16 @@ jobs:
     name: CD
     needs: [CI]
     steps:
+      - name: Get sources 
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  
       - name: Setup Azure Container registry
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }} 
-      - name: Build Artifactory
-        run: |
-          export TAG=${{ env.IMAGE_TAG }}
-          export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
-          docker compose build      
+          password: ${{ secrets.ACR_PASSWORD }}      
       - name: Setup Acceptance tests
         run: |
           export TAG=${{ env.IMAGE_TAG }}
