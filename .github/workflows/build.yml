@@ -62,7 +62,8 @@ jobs:
         run: |
           export TAG=${{ github.run_id }}
           export REGISTRY_LOGIN_SERVER=${{ secrets.ACR_LOGIN_SERVER }}
-          docker compose up -d --no-build      
+          docker compose up -d --no-build    
+          sleep 30  
       - name: Run Acceptance tests
         run: curl http://localhost:8081/api-sakila/v1/sakila/listActorByFilmTop10  
       - name: Publish Artifactory
